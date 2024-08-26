@@ -31,10 +31,3 @@ jobs:
       run: |
         npm start &
         sleep 10  # Allow time for the server to start
-
-    - name: Deploy to Heroku
-      env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: |
-        git remote add heroku https://git.heroku.com/your-heroku-app.git
-        git push heroku main
