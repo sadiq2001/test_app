@@ -31,14 +31,15 @@ jobs:
       run: |
         npm start &
         sleep 10 
+        
     - name: Deploy to Server via SSH
       if: success()
       uses: appleboy/ssh-action@v0.1.1
       with:
-        host: ${{ secrets.SERVER_IP }}   # Add your server IP as a secret
-        username: ubuntu                 # Your server username (e.g., ubuntu)
+        host: ${{ secrets.SERVER_IP }}   
+        username: ubuntu                 
         key: ${{ secrets.DEPLOY_SSH_KEY }}  
         script: |
-          cd downloads/simple_nodeapp    # Navigate to your app directory on the server
-          git pull origin main           # Pull the latest changes
+          cd downloads/simple_nodeapp    
+          git pull origin main           
           pm2 restart simple_nodeapp
