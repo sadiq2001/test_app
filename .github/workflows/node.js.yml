@@ -40,6 +40,5 @@ jobs:
         username: ubuntu                 
         key: ${{ secrets.DEPLOY_SSH_KEY }}  
         script: |
-          cd downloads/simple_nodeapp    
-          git pull origin main           
-          pm2 restart simple_nodeapp
+          cd home/ubuntu/projects
+          
