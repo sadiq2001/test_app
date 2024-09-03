@@ -16,7 +16,7 @@ jobs:
     - name: Install SSH key
       uses: webfactory/ssh-agent@v0.7.0
       with:
-        ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+        ssh-private-key: ${{ secrets.ID_RSA_PRI }}
 
     - name: Transfer files to EC2
       run: |
