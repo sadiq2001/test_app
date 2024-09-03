@@ -22,7 +22,7 @@ jobs:
     - name: Install SSH key
       uses: webfactory/ssh-agent@v0.7.0
       with:
-        ssh-private-key: ${{ secrets.ID_RSA_PUB }}
+        ssh-private-key: ${{ secrets.IRFAN22.PEM }}
 
     - name: Connect to EC2 and Deploy
       env:
