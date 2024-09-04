@@ -31,6 +31,7 @@ jobs:
       run: |
         ssh -o StrictHostKeyChecking=no $USERNAME@$HOST << 'EOF'
         cd /home/ubuntu/test_app
+        git pull origin main
         npm install
         pm2 restart server.js || pm2 start server.js
         EOF
