@@ -29,7 +29,7 @@ jobs:
         HOST: ${{ secrets.EC2_PUBLIC_IP }}
         USERNAME: ${{ secrets.USERNAME }}
       run: |
-        ssh -o StrictHostKeyChecking=no $USERNAME@HOST<< 'EOF'
+        ssh -o StrictHostKeyChecking=no $USERNAME@HOST << 'EOF'
         cd /home/ubuntu/test_app
         git pull origin main
         npm install
