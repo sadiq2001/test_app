@@ -3,9 +3,9 @@ const sum = require('./app');
 
 const server = http.createServer((req, res) => {
   if (req.url === '/') {
-    const result = sum(1, 2); // Example of calling the sum function
+    const result = sum(10, 20); // Example of calling the sum function
     res.writeHead(200, { 'Content-Type': 'text/plain' });
-    res.end(`The sum of 1 and 2 is: ${result}`);
+    res.end(`The sum of 10 and 20 is: ${result}`);
   } else {
     res.writeHead(404, { 'Content-Type': 'text/plain' });
     res.end('Not Found');
