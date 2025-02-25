@@ -1,4 +1,4 @@
-//server.j
+//server.js
 const http = require('http');
 const sum = require('./app');
 
