@@ -1,4 +1,3 @@
-#npm-publish.yml
 name: Deploy to EC2
 
 on:
@@ -19,19 +18,37 @@ jobs:
       with:
         node-version: '20'
 
-    - name: Install SSH key
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Build Docker image
+      run: |
+        docker build -t test_app_image .
+
+    - name: Save Docker image as tar
+      run: |
+        docker save test_app_image > test_app_image.tar
+
+    - name: Upload Docker image to EC2 and deploy
       uses: webfactory/ssh-agent@v0.7.0
       with:
         ssh-private-key: ${{ secrets.IRFAN22_PEM }}
 
-    - name: Connect to EC2 and Deploy
+    - name: Copy Docker image to EC2
+      env:
+        HOST: ${{ secrets.EC2_PUBLIC_IP }}
+        USERNAME: ${{ secrets.USERNAME }}
+      run: |
+        scp -o StrictHostKeyChecking=no test_app_image.tar $USERNAME@$HOST:/home/ubuntu/
+
+    - name: SSH into EC2 and run Docker container
       env:
         HOST: ${{ secrets.EC2_PUBLIC_IP }}
         USERNAME: ${{ secrets.USERNAME }}
       run: |
         ssh -o StrictHostKeyChecking=no $USERNAME@$HOST << 'EOF'
-        cd /home/ubuntu/test_app
-        git pull origin main
-        npm install
-        pm2 restart server.js || pm2 start server.js
+          docker load < /home/ubuntu/test_app_image.tar
+          docker stop test_app_container || true
+          docker rm test_app_container || true
+          docker run -d --name test_app_container -p 3000:3000 test_app_image
         EOF
